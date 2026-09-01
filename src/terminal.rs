@@ -1,20 +1,10 @@
 #[cfg(target_os = "windows")]
-use crate::platform::windows::{
-    clear_screen,
-    get_terminal_height,
-    get_terminal_width,
-};
-
+use crate::platform::windows::*;
 #[cfg(unix)]
-use crate::platform::unix::{
-    clear_screen,
-    get_terminal_height,
-    get_terminal_width,
-};
-
+use crate::platform::unix::*;
+use crate::components::{ Label, NCLabel };
 use crate::colors::RESET;
-use crate::components::{Label, NCLabel};
-use std::io::{self, Write};
+use std::io::{ self, Write };
 
 pub struct Terminal {
     width: u16,
@@ -33,8 +23,10 @@ impl Terminal {
         std::thread::sleep(duration);
     }
 
-    pub fn enter(&self) {
+    fn enter(&self) {
         print!("\x1b[?1049h");
+        print!("\x1b[2J");
+        print!("\x1b[H");
         io::stdout().flush().unwrap();
     }
 
@@ -46,6 +38,19 @@ impl Terminal {
     pub fn clear_screen(&self) {
         clear_screen();
         io::stdout().flush().unwrap();
+    }
+
+    fn install_ctrl_c_handler(&self) {
+        install_ctrl_c_handler();
+    }
+
+    pub fn setup(&self) {
+        self.enter();
+        self.install_ctrl_c_handler();
+    }
+
+    pub fn is_interrupted(&self) -> bool {
+        is_interrupted()
     }
 
     pub fn width(&self) -> u16 {
@@ -64,7 +69,6 @@ impl Terminal {
             text.text.get_val(),
             RESET
         );
-
         io::stdout().flush().unwrap();
     }
 
@@ -78,7 +82,6 @@ impl Terminal {
             text.text.get_val(),
             RESET
         );
-
         io::stdout().flush().unwrap();
     }
 }

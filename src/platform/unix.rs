@@ -1,5 +1,22 @@
 use libc::{ioctl, winsize, STDOUT_FILENO, TIOCGWINSZ};
 use std::process::Command;
+use std::sync::atomic::{AtomicBool, Ordering};
+
+static INTERRUPTED: AtomicBool = AtomicBool::new(false);
+
+unsafe extern "C" fn ctrl_c_handler(_: libc::c_int) {
+    INTERRUPTED.store(true, Ordering::SeqCst);
+}
+
+pub fn install_ctrl_c_handler() {
+    unsafe {
+        libc::signal(libc::SIGINT, Some(ctrl_c_handler));
+    }
+}
+
+pub fn is_interrupted() -> bool {
+    INTERRUPTED.load(Ordering::SeqCst)
+}
 
 pub fn get_terminal_size() -> (u16, u16) {
     let mut size = winsize {

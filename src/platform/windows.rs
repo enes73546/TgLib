@@ -1,5 +1,35 @@
-use windows::Win32::System::Console::{ GetConsoleScreenBufferInfo, GetStdHandle, CONSOLE_SCREEN_BUFFER_INFO, STD_OUTPUT_HANDLE, };
-  use std::process::Command;
+use windows::Win32::System::Console::{
+    GetConsoleScreenBufferInfo,
+    GetStdHandle,
+    SetConsoleCtrlHandler,
+    CONSOLE_SCREEN_BUFFER_INFO,
+    STD_OUTPUT_HANDLE,
+};
+
+use std::process::Command;
+use std::sync::atomic::{AtomicBool, Ordering};
+
+static INTERRUPTED: AtomicBool = AtomicBool::new(false);
+
+unsafe extern "system" fn ctrl_c_handler(event: u32) -> windows::core::BOOL {
+    if event == 0 {
+        INTERRUPTED.store(true, Ordering::SeqCst);
+        windows::core::BOOL(1)
+    } else {
+        windows::core::BOOL(0)
+    }
+}
+
+pub fn install_ctrl_c_handler() {
+    unsafe {
+        SetConsoleCtrlHandler(Some(ctrl_c_handler), true)
+            .expect("failed to install Ctrl+C handler");
+    }
+}
+
+pub fn is_interrupted() -> bool {
+    INTERRUPTED.load(Ordering::SeqCst)
+}
 
 pub fn clear_screen() {
     Command::new("cmd")

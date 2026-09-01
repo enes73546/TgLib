@@ -16,6 +16,7 @@ impl Label {
         }
     }
 }
+
 pub struct NCLabel {
     pub fore_color: &'static str,
     pub back_color: &'static str,

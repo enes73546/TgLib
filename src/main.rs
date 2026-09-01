@@ -3,11 +3,10 @@ use t_glib::components::Label;
 use t_glib::colors::*;
 use t_glib::types::Text;
 
-fn main() {
+fn main(){
     let terminal = Terminal::new();
 
-    terminal.enter();
-    terminal.clear_screen();
+    terminal.setup();
 
     let my_text = Label {
         pos: (40, 3),
@@ -18,6 +17,18 @@ fn main() {
 
     terminal.printc(&my_text);
 
-    terminal.sleep(std::time::Duration::from_hours(24)); // This keeps the prompt out your way until ^C
-    terminal.leave();
+    loop {
+        if terminal.is_interrupted() {
+            let interrupt_text = Label {
+                pos: (40, 4),
+                fore_color: RED,
+                back_color: BG_BLACK,
+                text: Text::from_str("Exiting Program"),
+            };
+
+            terminal.printc(&interrupt_text);
+            terminal.sleep(std::time::Duration::from_secs(2));
+            terminal.leave();
+        }
+    }
 }
