@@ -102,9 +102,7 @@ src/
 ├── terminal.rs
 ├── types.rs
 ├── colors.rs
-├── components/
-│   ├── mod.rs
-│   └── label.rs
+├── components.rs
 └── platform/
     ├── mod.rs
     ├── windows.rs
