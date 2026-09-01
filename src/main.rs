@@ -12,7 +12,7 @@ fn main(){
         pos: (40, 3),
         fore_color: GREEN,
         back_color: BG_BLACK,
-        text: Text::from_str("Welcome to TgLib! | Version 0.1.0"),
+        text: Text::from_str("Welcome to TgLib! | Version 0.1.1"),
     };
 
     terminal.printc(&my_text);
