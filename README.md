@@ -11,7 +11,6 @@ TgLib is designed to make building terminal-based applications easier by providi
 * Terminal size detection
 * Cross-platform terminal support
 * Screen clearing
-* Cursor positioning
 * Coloured text
 * Background colours
 * Text components
