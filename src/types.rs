@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub struct Text {
     len: u8,
     val: String,
