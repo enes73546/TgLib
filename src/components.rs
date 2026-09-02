@@ -33,3 +33,37 @@ impl NCLabel {
         }
     }
 }
+
+pub struct Cell {
+    pub pos: (u16, u16),
+    pub color: &'static str,
+    pub has_char: bool,
+    pub char: char,
+    pub char_color: &'static str,
+}
+
+
+pub struct Pixel {
+    pub pos: (u16, u16),
+    pub color: &'static str,
+}
+
+pub struct PixelSet {
+    pub pixels: Vec<Pixel>,
+}
+
+impl std::fmt::Display for PixelSet {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        for pixel in &self.pixels {
+            write!(
+                f,
+                "\x1b[{};{}H{}█\x1b[0m",
+                pixel.pos.1,
+                pixel.pos.0,
+                pixel.color
+            )?;
+        }
+
+        Ok(())
+    }
+}
