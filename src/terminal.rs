@@ -5,6 +5,7 @@ use crate::platform::unix::*;
 use crate::components::{ Label, NCLabel, };
 use crate::colors::RESET;
 use std::io::{ self, Write };
+use crate::colors::*;
 
 pub struct Terminal {
     width: u16,
@@ -59,6 +60,31 @@ impl Terminal {
 
     pub fn height(&self) -> u16 {
         self.height
+    }
+
+    pub fn debug_coordinates(&self) {
+        self.debug_coordinates_x();
+        self.debug_coordinates_y();
+    }
+
+    pub fn debug_coordinates_y(&self) {
+        for y in 1..=self.height {
+            if y < 10 {
+                print!("\x1b[{};1H{}0{}~{}", y, B_CYAN, y, RESET);
+            } else {
+                print!("\x1b[{};1H{}{}~{}", y, B_CYAN, y, RESET);
+            }
+        }
+        io::stdout().flush().unwrap();
+    }
+
+    pub fn debug_coordinates_x(&self) {
+        let pattern = format!("{I_CYAN}0123456789{RESET}");
+        let count = (self.width + 9) / 10;
+
+        print!("\x1b[1;1H{}", pattern.repeat(count.into()));
+
+        io::stdout().flush().unwrap();
     }
 
     pub fn print(&self, text: &NCLabel) {
@@ -124,4 +150,5 @@ impl Terminal {
         print!("{}", pixel_set);
         io::stdout().flush().unwrap();
     }
+
 }
