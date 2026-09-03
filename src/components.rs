@@ -1,4 +1,4 @@
-use crate::types::Text;
+use crate::types::{ Text, Key };
 
 pub struct Label {
     pub pos: (u16, u16),
@@ -66,4 +66,9 @@ impl std::fmt::Display for PixelSet {
 
         Ok(())
     }
+}
+
+pub struct BIND {
+    pub func: fn (),
+    pub key:  Key
 }

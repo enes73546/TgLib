@@ -1,12 +1,14 @@
 [package]
 name = "t_glib"
-version = "0.2.2"
+version = "0.2.3"
 edition = "2024"
 
 [dependencies]
 
-[target.'cfg(target_os = "windows")'.dependencies]
-windows = { version = "0.62.2", features = ["Win32_System_Console"] }
-
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62.2", features = [
+    "Win32_System_Console",
+    "Win32_UI_Input_KeyboardAndMouse",
+] }
 [target.'cfg(unix)'.dependencies]
 libc = "0.2.189"

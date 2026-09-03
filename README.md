@@ -4,7 +4,7 @@ A lightweight terminal UI library for Rust.
 
 TgLib is designed to make building terminal-based applications easier by providing simple abstractions for terminal management, text, colours, and components.
 
-> **Current version: 0.2.2**
+> **Current version: 0.2.3**
 
 ## Features
 
