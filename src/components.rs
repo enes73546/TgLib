@@ -1,3 +1,5 @@
+use std::default;
+
 use crate::types::{ Text, Key };
 
 pub struct Label {
@@ -37,8 +39,7 @@ impl NCLabel {
 pub struct Cell {
     pub pos: (u16, u16),
     pub color: &'static str,
-    pub has_char: bool,
-    pub char: char,
+    pub char_: char,
     pub char_color: &'static str,
 }
 

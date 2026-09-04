@@ -187,7 +187,7 @@ impl Terminal {
             cell.pos.0,
             cell.color,
             cell.char_color,
-            cell.char,
+            cell.char_,
             RESET
         );
 
